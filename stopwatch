@@ -1,19 +1,29 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function Counter() {
     const [count, setCount] = useState(0);
+    let intervalRef = useRef(null);
     function handleStartBtn() {
-        setInterval(() => {
-            setCount((prev) => prev + 1)
-            console.log("anything");
-        }, 1000)
+        clearInterval(intervalRef.current);
+        intervalRef.current=setInterval(() => {
+            //setCount(count +1) //async
+            setCount((prev) => prev + 1) //sync
+            
+        }, 1000);
+    }
+    function handleStopbtn () {
+        clearInterval(intervalRef.current);
+    }
+    function handleResetbtn() {
+        clearInterval(intervalRef.current);
+        setCount(0);
     }
     return (
         <>
             <p>count :{count}</p>
             <button onClick={handleStartBtn}>Start</button>
-            <button>Stop</button>
-            <button>reset</button>
+            <button onClick={handleStopbtn}>Stop</button>
+            <button onClick={handleResetbtn}>reset</button>
         </>
     );
 }
